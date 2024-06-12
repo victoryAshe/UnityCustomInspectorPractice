@@ -5,16 +5,17 @@ using UnityEngine;
 using UnityEditor;
 using UnityEditor.AnimatedValues;
 
+[CanEditMultipleObjects]
 [CustomEditor(typeof(Cube))]
 public class CubeEditor : Editor
 {
-    /*
+    
     Cube cube;
     public void OnEnable()
     {
         cube = target as Cube;
     }
-    */
+
 
     /*
      * CH1. GUILayoutOption
@@ -228,7 +229,8 @@ public class CubeEditor : Editor
     }
     */
 
-
+    /*
+     * CH13. Begin/End FadeGroup
     AnimBool showFade;
 
     private void OnEnable()
@@ -254,4 +256,61 @@ public class CubeEditor : Editor
         EditorGUILayout.EndFadeGroup();
 
     }
+    */
+
+    /*
+     * CH14. Begin/End FoldoutHeaderGroup
+    bool showPosition = false;
+
+    public override void OnInspectorGUI()
+    {
+        showPosition = EditorGUILayout.BeginFoldoutHeaderGroup(showPosition, "Fold");
+
+        if (showPosition)
+        {
+            for (int i = 0; i < Selection.transforms.Length; i++)
+            {
+                Selection.transforms[i].position
+                    = EditorGUILayout.Vector3Field("Position", Selection.transforms[i].position);
+            }
+        }
+
+        EditorGUILayout.EndFoldoutHeaderGroup();
+    }
+    */
+
+    /* CH15. GUILayout.SelectionGrid
+    public override void OnInspectorGUI()
+    {
+        base.OnInspectorGUI();
+
+        GUILayout.Button(Resources.Load<Texture2D>("obstacle_river_lantern"), GUILayout.Width(30), GUILayout.Height(30));
+
+        EditorGUI.BeginChangeCheck();
+        cube.selGridInt = GUILayout.SelectionGrid(cube.selGridInt, cube.selTextures, 2, GUILayout.Width(200), GUILayout.Height(200));
+        if (EditorGUI.EndChangeCheck()) Debug.Log("∫Ø∞Ê ∞®¡ˆµ ");
+
+        GUILayout.Button(Resources.Load<Texture2D>("obstacle_river_oak"), GUILayout.Width(30), GUILayout.Height(30));
+    }
+    */
+
+    /*
+     * CH16. BuildTargetGroup
+    public override void OnInspectorGUI()
+    {
+        BuildTargetGroup selectionBuildTargetGroup = EditorGUILayout.BeginBuildTargetSelectionGrouping();
+
+        if (selectionBuildTargetGroup == BuildTargetGroup.Android)
+        {
+            EditorGUILayout.LabelField("æ»µÂ∑Œ¿ÃµÂ ∫ÙµÂ");
+        }
+
+        if (selectionBuildTargetGroup == BuildTargetGroup.Standalone)
+        {
+            EditorGUILayout.LabelField("PC ∫ÙµÂ");
+        }
+
+        EditorGUILayout.EndBuildTargetSelectionGrouping();
+    }
+    */
 }
