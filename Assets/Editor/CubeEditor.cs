@@ -9,13 +9,13 @@ using UnityEditor.AnimatedValues;
 [CustomEditor(typeof(Cube))]
 public class CubeEditor : Editor
 {
-    
+    /*
     Cube cube;
     public void OnEnable()
     {
         cube = target as Cube;
     }
-
+    */
 
     /*
      * CH1. GUILayoutOption
@@ -313,4 +313,102 @@ public class CubeEditor : Editor
         EditorGUILayout.EndBuildTargetSelectionGrouping();
     }
     */
+
+    /*
+     * CH17. ToolBar
+    public override void OnInspectorGUI()
+    {
+        EditorGUI.BeginChangeCheck();
+        cube.selIndex = GUILayout.Toolbar(cube.selIndex, new string[] { "0", "1" });
+        if (EditorGUI.EndChangeCheck()) GUI.FocusControl(null);
+
+        switch (cube.selIndex)
+        {
+            case 0: cube.text0 = EditorGUILayout.TextField("0", cube.text0); break;
+            case 1: cube.text1 = EditorGUILayout.TextField("1", cube.text1); break;
+        }
+    }
+    */
+
+    /* CH18. Popup
+    public override void OnInspectorGUI()
+    {
+        cube.currCharacter = (Cube.Character)EditorGUILayout.EnumPopup(cube.currCharacter);
+
+        switch (cube.currCharacter)
+        {
+            case Cube.Character.Dog:
+                cube.text0 = EditorGUILayout.TextField(cube.text0);
+                break;
+            case Cube.Character.Hamster:
+                cube.text1 = EditorGUILayout.TextField(cube.text1);
+                break;
+            case Cube.Character.Cat:
+                cube.text2 = EditorGUILayout.TextField(cube.text2);
+                break;
+        }
+    }
+    */
+
+    /*
+     * CH19. Play/Stop Button
+    public override void OnInspectorGUI()
+    {
+        string label = EditorApplication.isPlaying ? "¡á" : "¢º";
+        if (GUILayout.Button(label))
+        {
+            EditorApplication.ExecuteMenuItem("Edit/Play");
+        }
+    }
+    */
+
+    /*
+     * CH20. background color
+    public override void OnInspectorGUI()
+    {
+        GUILayout.Button("Èò»ö");
+
+        GUI.backgroundColor = Color.yellow;
+        GUILayout.Button("³ë¶û");
+        GUILayout.Button("³ë¶û");
+        GUILayout.Button("³ë¶û");
+        GUILayout.Button("³ë¶û");
+        
+        GUI.backgroundColor = Color.white;
+        GUILayout.Button("Èò»ö");
+    }
+    */
+
+    Cube cube;
+    void OnEnable()
+    {
+        cube = target as Cube;
+        if (cube.Cell[0] == null)
+        {
+            //for (int i = 0; i < cube.Cell.Length; i++) cube.Cell[i] = Resources.Load<Texture2D>("Resources/unity_builtin_extra/UISprite");
+        }
+    }
+
+    public override void OnInspectorGUI()
+    {
+        base.OnInspectorGUI();
+
+        int index = 0;
+        for (int i = 0; i < cube.size; i++)
+        {
+            GUILayout.BeginHorizontal();
+            for (int j = 0; j < cube.size; j++)
+            {
+                if (GUILayout.Button(cube.Cell[index], GUILayout.Width(50), GUILayout.Height(50)))
+                {
+                    if (cube.Cell[index] == cube.CellState[0])
+                        cube.Cell[index] = cube.CellState[1];
+                    else if (cube.Cell[index] == cube.CellState[1])
+                        cube.Cell[index] = cube.CellState[0];
+                }
+                index++;
+            }
+            GUILayout.EndHorizontal();
+        }
+    }
 }
