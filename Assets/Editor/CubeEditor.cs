@@ -444,4 +444,13 @@ public class CubeEditor : Editor
         cube.SetCurves(cube.curveX);
     }
     */
+
+    public override void OnInspectorGUI()
+    {
+        base.OnInspectorGUI();
+        GUI.skin = cube.guiSkin;
+
+        GUILayout.Button("버튼 1", "MyButton");
+        GUILayout.Button("버튼 2");
+    }
 }
