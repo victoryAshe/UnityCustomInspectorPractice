@@ -9,13 +9,13 @@ using UnityEditor.AnimatedValues;
 [CustomEditor(typeof(Cube))]
 public class CubeEditor : Editor
 {
-    /*
+    
     Cube cube;
     public void OnEnable()
     {
         cube = target as Cube;
     }
-    */
+
 
     /*
      * CH1. GUILayoutOption
@@ -379,6 +379,8 @@ public class CubeEditor : Editor
     }
     */
 
+    /*
+     * CH21. Cell state 예제
     Cube cube;
     void OnEnable()
     {
@@ -411,4 +413,35 @@ public class CubeEditor : Editor
             GUILayout.EndHorizontal();
         }
     }
+    */
+
+    /*
+     * CH22. Text Asset 예제
+    string text;
+    TextAsset txtAsset;
+    Vector2 scroll;
+
+    public override void OnInspectorGUI()
+    {
+        txtAsset = (TextAsset)EditorGUILayout.ObjectField(txtAsset, typeof(TextAsset), true);
+
+        if (txtAsset != null)
+        {
+            text = txtAsset.text;
+
+            scroll = EditorGUILayout.BeginScrollView(scroll);
+            text = EditorGUILayout.TextArea(text, GUILayout.Height(600));
+            EditorGUILayout.EndScrollView();
+        }
+    }
+    */
+
+    /*
+     * CH23. Animation Curve 예제
+    public override void OnInspectorGUI()
+    {
+        cube.curveX = EditorGUILayout.CurveField("Animation on X", cube.curveX);
+        cube.SetCurves(cube.curveX);
+    }
+    */
 }
